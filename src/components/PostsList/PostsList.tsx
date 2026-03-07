@@ -4,10 +4,10 @@ export default async function PostsList() {
     const posts = await postRepository.findAll();
 
     return (
-        <>
+        <div className="pt-8">
             {posts.map((post) => {
                 return <p key={post.id}>{post.title}</p>
             })}
-        </>
+        </div>
     )
 }
