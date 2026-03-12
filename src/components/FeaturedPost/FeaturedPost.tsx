@@ -1,24 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
+import { PostHeading } from "../PostHeading/PostHeading";
 
 export function FeaturedPost() {
     return (
         <section className="grid grid-cols-1 gap-8 mb-16 sm:grid-cols-2 group hover:cursor-pointer">
             <Link className="w-full h-full overflow-hidden rounded-xl" href="#">
-            <Image 
-                className="w-full h-full group-hover:scale-105 transition" 
-                src='/images/bryen_0.png' 
-                width={1200} 
-                height={720} 
-                alt="Título do post" 
-                priority
-            />
+                <Image 
+                    className="w-full h-full group-hover:scale-105 transition" 
+                    src='/images/bryen_0.png' 
+                    width={1200} 
+                    height={720} 
+                    alt="Título do post" 
+                    priority
+                />
             </Link>
             <div className="flex flex-col gap-3 sm:justify-center">
                 <time className="text-slate-600 block text-sm/tight" dateTime="2026-03-11">11/03/2026 22:09</time>
-                <h1 className="text-2xl/tight font-extrabold sm:text-4xl">
-                    <Link href='#'>Post Title</Link>
-                </h1>
+                <PostHeading postUrl="#" as="h1">
+                    Post Title
+                </PostHeading>
                 <p>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis ducimus similique, ex voluptates repellat rerum, soluta voluptas sequi magnam libero, molestiae quos quo possimus beatae aperiam iste aspernatur laborum magni.
                 </p>
