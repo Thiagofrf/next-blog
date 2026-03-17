@@ -1,6 +1,7 @@
 import { postRepository } from "@/repositories/post"
 import { PostImageCover } from "../PostImageCover/PostImageCover";
 import { PostHeading } from "../PostHeading/PostHeading";
+import { formatDate, formatDistanceTime } from "@/helpers/format-date";
 
 export default async function PostsList() {
     const posts = await postRepository.findAll();
@@ -14,7 +15,7 @@ export default async function PostsList() {
                     <div key={`post_${post.id}`} className="flex flex-col gap-4 group">
                         <PostImageCover src={post.coverImageUrl} alt={post.content} href={postLink}/>
                             <div className="flex flex-col gap-3 sm:justify-center">
-                                <time className="text-slate-600 block text-sm/tight" dateTime="2026-03-11">{post.createdAt}</time>
+                                <time className="text-slate-600 block text-sm/tight" dateTime={formatDate(post.createdAt)} title={formatDistanceTime(post.createdAt)}>{formatDate(post.createdAt)}</time>
                                 <PostHeading postUrl={postLink} as="h2">
                                     {post.title}
                                 </PostHeading>
