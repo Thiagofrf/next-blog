@@ -5,11 +5,11 @@ import { formatDate, formatDistanceTime } from "@/helpers/format-date";
 import { PostSummary } from "../PostSummary/PostSummary";
 
 export default async function PostsList() {
-    const posts = await postRepository.findAll();
+    const posts = await postRepository.findAllPublished();
 
     return (
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post) => {
+            {posts.slice(1).map((post) => {
                 const postLink = `/post/${post.slug}`
 
                 return (
@@ -19,7 +19,7 @@ export default async function PostsList() {
                             alt={post.content} 
                             href={postLink}
                         />
-                        
+
                         <PostSummary 
                             postHeading="h2" 
                             postLink={postLink} 
