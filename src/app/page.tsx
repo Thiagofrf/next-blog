@@ -7,9 +7,7 @@ import { Suspense } from "react";
 
 export default async function HomePage() {
   return (
-    <Container>
-      <Header />
-
+    <>
       <Suspense fallback={<SpinLoader />}>
         <FeaturedPost />
       </Suspense>
@@ -17,10 +15,6 @@ export default async function HomePage() {
       <Suspense fallback={<SpinLoader />}>
         <PostsList />
       </Suspense>
-
-      <footer className="text-4xl font-bold text-center py-8">
-        <h2>Footer</h2>
-      </footer>
-    </Container>
+    </>
   )
 }
