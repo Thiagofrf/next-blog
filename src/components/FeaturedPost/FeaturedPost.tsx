@@ -1,9 +1,9 @@
-import { postRepository } from "@/repositories/post";
 import { PostImageCover } from "../PostImageCover/PostImageCover";
 import { PostSummary } from "../PostSummary/PostSummary";
+import { findAllPublishedPosts } from "@/lib/post/queries";
 
 export async function FeaturedPost() {
-    const posts = await postRepository.findAllPublished();
+    const posts = await findAllPublishedPosts();
     const highlightedPost = posts[0]
     const slug = highlightedPost.slug;
     const postLink = `/post/${slug}`

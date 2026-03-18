@@ -1,11 +1,10 @@
 import { postRepository } from "@/repositories/post"
 import { PostImageCover } from "../PostImageCover/PostImageCover";
-import { PostHeading } from "../PostHeading/PostHeading";
-import { formatDate, formatDistanceTime } from "@/helpers/format-date";
 import { PostSummary } from "../PostSummary/PostSummary";
+import { findAllPublishedPosts } from "@/lib/post/queries";
 
 export default async function PostsList() {
-    const posts = await postRepository.findAllPublished();
+    const posts = await findAllPublishedPosts();
 
     return (
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
