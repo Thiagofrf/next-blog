@@ -2,6 +2,7 @@ import { postRepository } from "@/repositories/post"
 import { PostImageCover } from "../PostImageCover/PostImageCover";
 import { PostHeading } from "../PostHeading/PostHeading";
 import { formatDate, formatDistanceTime } from "@/helpers/format-date";
+import { PostSummary } from "../PostSummary/PostSummary";
 
 export default async function PostsList() {
     const posts = await postRepository.findAll();
@@ -13,16 +14,19 @@ export default async function PostsList() {
 
                 return (
                     <div key={`post_${post.id}`} className="flex flex-col gap-4 group">
-                        <PostImageCover src={post.coverImageUrl} alt={post.content} href={postLink}/>
-                            <div className="flex flex-col gap-3 sm:justify-center">
-                                <time className="text-slate-600 block text-sm/tight" dateTime={formatDate(post.createdAt)} title={formatDistanceTime(post.createdAt)}>{formatDate(post.createdAt)}</time>
-                                <PostHeading postUrl={postLink} as="h2">
-                                    {post.title}
-                                </PostHeading>
-                                <p>
-                                    {post.excerpt}
-                                </p>
-                            </div>
+                        <PostImageCover 
+                            src={post.coverImageUrl} 
+                            alt={post.content} 
+                            href={postLink}
+                        />
+                        
+                        <PostSummary 
+                            postHeading="h2" 
+                            postLink={postLink} 
+                            createdAt={post.createdAt}
+                            title={post.title} 
+                            excerpt={post.excerpt}
+                        />
                     </div>
                 )
             })}
