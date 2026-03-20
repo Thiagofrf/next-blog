@@ -9,17 +9,7 @@ export default async function PostSlugPage({
     params
 }: PostSlugPageProps) {
     const { slug } = await params;
-    let post;
-    
-    try {
-        post = await findPostBySlug(slug)
-    } catch (error) {
-        console.error(error)
-        post = undefined
-    }
-        
-
-    if (!post) notFound()
+    const post = await findPostBySlug(slug)
 
     return (
         <h1 className="text-7xl font-bold py-16">
