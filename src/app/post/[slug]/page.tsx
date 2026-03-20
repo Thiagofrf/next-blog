@@ -1,5 +1,8 @@
+import { SinglePost } from "@/components/SinglePost/SinglePost";
+import { SpinLoader } from "@/components/SpinLoader/SpinLoader";
 import { findPostBySlug } from "@/lib/post/queries";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 type PostSlugPageProps = {
     params: Promise<{slug: string}>
@@ -19,11 +22,11 @@ export default async function PostSlugPage({
     params
 }: PostSlugPageProps) {
     const { slug } = await params;
-    const post = await findPostBySlug(slug)
 
     return (
-        <h1 className="text-7xl font-bold py-16">
-            {post?.title}
-        </h1>
+        <Suspense fallback={<SpinLoader containerClasses="min-h-20 mb-16" />}>
+            <SinglePost slug={slug} />
+        </Suspense>
+        
     )
 }
