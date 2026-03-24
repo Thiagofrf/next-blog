@@ -3,13 +3,13 @@ import Link from "next/link"
 
 type PostHeadingProps = {
     children: React.ReactNode;
-    postUrl: string;
+    postUrl?: string;
     as?: "h1" | "h2"
 }
 
 export function PostHeading({
     children,
-    postUrl,
+    postUrl = '',
     as: TagHeading = 'h2'
 }: PostHeadingProps) {
     const headingClassesMap = {
@@ -21,9 +21,17 @@ export function PostHeading({
 
     return (
         <TagHeading className={clsx(headingClassesMap[TagHeading], commonClasses)}>
-            <Link href={postUrl} className="hover:text-slate-600 transition">
-                {children}
-            </Link>
+            {postUrl !== '' && (
+                <Link href={postUrl} className="hover:text-slate-600 transition">
+                    {children}
+                </Link>
+            )}
+
+            {postUrl === '' && (
+                <p>
+                    {children}
+                </p>
+            )}
         </TagHeading>
     )
 }
