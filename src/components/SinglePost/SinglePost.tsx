@@ -2,6 +2,7 @@ import { findPostBySlug } from "@/lib/post/queries"
 import Image from "next/image"
 import { PostHeading } from "../PostHeading/PostHeading"
 import { PostDate } from "../PostDate/PostDate"
+import { SafeMarkdown } from "../SafeMarkdown/SafeMarkdown"
 
 type SinglePostProps = {
     slug: string
@@ -32,9 +33,7 @@ export async function SinglePost({
                 </p>    
             </header>
 
-            <p>
-                {post.content}
-            </p>
+            <SafeMarkdown markdown={post.content}/>
             
         </article>
     )
