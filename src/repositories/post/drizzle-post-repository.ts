@@ -6,38 +6,43 @@ import { eq, desc } from "drizzle-orm";
 
 export class DrizzlePostRepository implements PostRepository {
   async findAllPublished(): Promise<PostModel[]> {
-    const query = drizzleDb.select().from(postsTable);
+    const posts = await drizzleDb.query.posts.findMany({
+      where: eq(postsTable.published, true),
+      orderBy: desc(postsTable.createdAt),
+    });
 
-    query.where(eq(postsTable.published, true));
-    query.orderBy(desc(postsTable.createdAt));
-
-    const result = await query;
-    return result;
+    return posts;
   }
 
   async findAll(): Promise<PostModel[]> {
-    const query = drizzleDb.select().from(postsTable);
-    query.orderBy(desc(postsTable.createdAt));
+    const posts = await drizzleDb.query.posts.findMany({
+      orderBy: desc(postsTable.createdAt),
+    });
 
-    const result = await query;
-    return result;
+    return posts;
   }
 
   async findById(id: string): Promise<PostModel> {
-    const query = drizzleDb.select().from(postsTable);
-    query.where(eq(postsTable.id, id));
+    const post = await drizzleDb.query.posts.findFirst({
+      where: eq(postsTable.id, id),
+    });
 
-    const result = await query;
+    if (!post) {
+      throw new Error(`Post with id ${id} not found`);
+    }
 
-    return result[0];
+    return post;
   }
 
   async findBySlug(slug: string): Promise<PostModel> {
-    const query = drizzleDb.select().from(postsTable);
-    query.where(eq(postsTable.slug, slug));
+    const post = await drizzleDb.query.posts.findFirst({
+      where: eq(postsTable.slug, slug),
+    });
 
-    const result = await query;
+    if (!post) {
+      throw new Error(`Post with slug ${slug} not found`);
+    }
 
-    return result[0];
+    return post;
   }
 }
