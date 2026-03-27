@@ -7,8 +7,8 @@ import { eq, desc } from "drizzle-orm";
 export class DrizzlePostRepository implements PostRepository {
   async findAllPublished(): Promise<PostModel[]> {
     const posts = await drizzleDb.query.posts.findMany({
-      where: eq(postsTable.published, true),
-      orderBy: desc(postsTable.createdAt),
+      where: (posts, { eq }) => eq(posts.published, true),
+      orderBy: (posts, { desc }) => desc(posts.createdAt),
     });
 
     return posts;
@@ -16,7 +16,7 @@ export class DrizzlePostRepository implements PostRepository {
 
   async findAll(): Promise<PostModel[]> {
     const posts = await drizzleDb.query.posts.findMany({
-      orderBy: desc(postsTable.createdAt),
+      orderBy: (posts, { desc }) => desc(posts.createdAt),
     });
 
     return posts;
@@ -24,7 +24,7 @@ export class DrizzlePostRepository implements PostRepository {
 
   async findById(id: string): Promise<PostModel> {
     const post = await drizzleDb.query.posts.findFirst({
-      where: eq(postsTable.id, id),
+      where: (posts, { eq }) => eq(posts.id, id),
     });
 
     if (!post) {
@@ -36,7 +36,7 @@ export class DrizzlePostRepository implements PostRepository {
 
   async findBySlug(slug: string): Promise<PostModel> {
     const post = await drizzleDb.query.posts.findFirst({
-      where: eq(postsTable.slug, slug),
+      where: (posts, { eq }) => eq(posts.slug, slug),
     });
 
     if (!post) {
