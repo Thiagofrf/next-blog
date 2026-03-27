@@ -2,7 +2,7 @@ import { JsonPostRepository } from "@/repositories/post/json-post-repository";
 import { drizzleDb } from ".";
 import { postsTable } from "./schemas";
 
-async () => {
+(async () => {
   const jsonPostRepository = new JsonPostRepository();
   const posts = await jsonPostRepository.findAll();
 
@@ -13,4 +13,4 @@ async () => {
   } catch (error) {
     console.log(error);
   }
-};
+})();
