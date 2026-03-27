@@ -22,7 +22,8 @@ export class DrizzlePostRepository implements PostRepository {
 
   async findById(id: string): Promise<PostModel> {
     const post = await drizzleDb.query.posts.findFirst({
-      where: (posts, { eq }) => eq(posts.id, id),
+      where: (posts, { eq, and }) =>
+        and(eq(posts.id, id), eq(posts.published, true)),
     });
 
     if (!post) {
@@ -34,7 +35,8 @@ export class DrizzlePostRepository implements PostRepository {
 
   async findBySlug(slug: string): Promise<PostModel> {
     const post = await drizzleDb.query.posts.findFirst({
-      where: (posts, { eq }) => eq(posts.slug, slug),
+      where: (posts, { eq, and }) =>
+        and(eq(posts.slug, slug), eq(posts.published, true)),
     });
 
     if (!post) {
