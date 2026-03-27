@@ -1,51 +1,63 @@
 import { PostModel } from "@/models/post/post-model";
 import { PostRepository } from "./post-repository";
 import { resolve } from "path";
-import { readFile } from 'fs/promises'
+import { readFile } from "fs/promises";
 
 const ROOT_DIR = process.cwd();
-const JSON_POSTS_FILE_PATH = resolve(ROOT_DIR, 'src', 'db', 'seed', 'posts.json')
+const JSON_POSTS_FILE_PATH = resolve(
+  ROOT_DIR,
+  "src",
+  "db",
+  "seed",
+  "posts.json",
+);
 
 const SIMULATE_WAIT_IN_MS = 0;
 
 export class JsonPostRepository implements PostRepository {
-    private async simulateWait() {
-        if (SIMULATE_WAIT_IN_MS <= 0) return;
+  private async simulateWait() {
+    if (SIMULATE_WAIT_IN_MS <= 0) return;
 
-        await new Promise(resolve => setTimeout(resolve, SIMULATE_WAIT_IN_MS))
-    }
+    await new Promise((resolve) => setTimeout(resolve, SIMULATE_WAIT_IN_MS));
+  }
 
-    private async readFromDisk(): Promise<PostModel[]> {
-        const jsonContent = await readFile(JSON_POSTS_FILE_PATH, 'utf-8')
-        const parsedJsonContent = JSON.parse(jsonContent)
-        const { posts } = parsedJsonContent
+  private async readFromDisk(): Promise<PostModel[]> {
+    const jsonContent = await readFile(JSON_POSTS_FILE_PATH, "utf-8");
+    const parsedJsonContent = JSON.parse(jsonContent);
+    const { posts } = parsedJsonContent;
 
-        return posts
-    }
+    return posts;
+  }
 
-    async findAllPublished(): Promise<PostModel[]> {
-        await this.simulateWait();
+  async findAll(): Promise<PostModel[]> {
+    await this.simulateWait();
 
-        const posts = await this.readFromDisk();
-        return posts.filter(post => post.published);
-    }
+    const posts = await this.readFromDisk();
+    return posts;
+  }
 
-    async findById(id: string): Promise<PostModel> {
-        const posts = await this.findAllPublished()
-        const filteredPost = posts.find(post => post.id === id)
+  async findAllPublished(): Promise<PostModel[]> {
+    await this.simulateWait();
 
-        if (!filteredPost) throw new Error('Post not found for specific ID')
+    const posts = await this.readFromDisk();
+    return posts.filter((post) => post.published);
+  }
 
-        return filteredPost
-    }
+  async findById(id: string): Promise<PostModel> {
+    const posts = await this.findAllPublished();
+    const filteredPost = posts.find((post) => post.id === id);
 
-    async findBySlug(slug: string): Promise<PostModel> {
-        const posts = await this.findAllPublished()
-        const filteredPost = posts.find(post => post.slug === slug)
+    if (!filteredPost) throw new Error("Post not found for specific ID");
 
-        if (!filteredPost) throw new Error('Post not found for specific slug')
+    return filteredPost;
+  }
 
-        return filteredPost
-    }
+  async findBySlug(slug: string): Promise<PostModel> {
+    const posts = await this.findAllPublished();
+    const filteredPost = posts.find((post) => post.slug === slug);
+
+    if (!filteredPost) throw new Error("Post not found for specific slug");
+
+    return filteredPost;
+  }
 }
-
