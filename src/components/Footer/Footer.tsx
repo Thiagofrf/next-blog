@@ -1,6 +1,7 @@
+'use cache'
 import Link from "next/link";
 
-export function Footer() {
+export async function Footer() {
     return (
         <footer className="pb-16 text-center">
             <p>

@@ -9,7 +9,8 @@ export function formatDate(rawDate: string): string {
     })
 }
 
-export function formatDistanceTime(rawDate: string): string {
+export async function formatDistanceTime(rawDate: string): Promise<string> {
+    'use cache'
     const date = new Date(rawDate);
 
     return formatDistanceToNow(date, {

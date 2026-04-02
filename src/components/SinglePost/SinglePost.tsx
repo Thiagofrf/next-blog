@@ -3,6 +3,7 @@ import Image from "next/image"
 import { PostHeading } from "../PostHeading/PostHeading"
 import { PostDate } from "../PostDate/PostDate"
 import { SafeMarkdown } from "../SafeMarkdown/SafeMarkdown"
+import { cacheLife } from "next/cache"
 
 type SinglePostProps = {
     slug: string
@@ -11,6 +12,8 @@ type SinglePostProps = {
 export async function SinglePost({ 
     slug
 }: SinglePostProps) {
+    'use cache'
+    cacheLife('max')
     const post = await findPostBySlug(slug)
 
     return (
