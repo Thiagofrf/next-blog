@@ -1,8 +1,8 @@
-import { SinglePost } from "@/components/SinglePost/SinglePost";
-import { SpinLoader } from "@/components/SpinLoader/SpinLoader";
-import { findPostBySlug } from "@/lib/post/queries";
 import { Metadata } from "next";
 import { Suspense } from "react";
+import { SinglePost } from "@/components/SinglePost/SinglePost";
+import { SpinLoader } from "@/components/SpinLoader/SpinLoader";
+import { findPublicPostBySlug } from "@/lib/post/queries/public";
 
 type PostSlugPageProps = {
     params: Promise<{slug: string}>
@@ -10,7 +10,7 @@ type PostSlugPageProps = {
 
 export async function generateMetadata({ params }: PostSlugPageProps): Promise<Metadata> {
     const { slug } = await params;
-    const post = await findPostBySlug(slug)
+    const post = await findPublicPostBySlug(slug)
 
     return {
         title: post.title,

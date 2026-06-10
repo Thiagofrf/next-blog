@@ -1,9 +1,9 @@
-import { findPostBySlug } from "@/lib/post/queries"
 import Image from "next/image"
+import { cacheLife } from "next/cache"
 import { PostHeading } from "../PostHeading/PostHeading"
 import { PostDate } from "../PostDate/PostDate"
 import { SafeMarkdown } from "../SafeMarkdown/SafeMarkdown"
-import { cacheLife } from "next/cache"
+import { findPublicPostBySlug } from "@/lib/post/queries/public"
 
 type SinglePostProps = {
     slug: string
@@ -14,7 +14,7 @@ export async function SinglePost({
 }: SinglePostProps) {
     'use cache'
     cacheLife('max')
-    const post = await findPostBySlug(slug)
+    const post = await findPublicPostBySlug(slug)
 
     return (
         <article className="mb-16">
