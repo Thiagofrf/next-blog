@@ -1,27 +1,36 @@
 import { postRepository } from "@/repositories/post"
+import { cacheLife, cacheTag } from "next/cache";
 import { notFound } from "next/navigation";
-import { cache } from "react";
 
-export const findAllPublishedPosts = cache(
-    async () => await postRepository.findAllPublished()
-) 
+export const findAllPublishedPosts = async () => {
+    "use cache"
+    cacheTag('posts')
+    cacheLife("hours")
 
-export const findPostBySlug = cache(
-    async (slug: string) => { 
-        const post = await postRepository.findBySlug(slug).catch(() => undefined)
+    return await postRepository.findAllPublished()
+}
 
-        if (!post) notFound()
-            
-        return post
-    }
-) 
 
-export const findPostById = cache(
-    async (id: string) => {
-        const post = await postRepository.findById(id).catch(() => undefined)
+export const findPostBySlug = async (slug: string) => { 
+    "use cache"
+    cacheTag(`post-${slug}`)
+    cacheLife("hours")
+    const post = await postRepository.findBySlug(slug).catch(() => undefined)
 
-        if (!post) notFound()
-            
-        return post
-    }
-) 
+    if (!post) notFound()
+        
+    return post
+}
+
+
+export const findPostById = async (id: string) => {
+    "use cache"
+    cacheTag(`post-${id}`)
+    cacheLife("hours")
+
+    const post = await postRepository.findById(id).catch(() => undefined)
+
+    if (!post) notFound()
+        
+    return post
+}
