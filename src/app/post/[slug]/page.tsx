@@ -5,7 +5,9 @@ import { SpinLoader } from "@/components/SpinLoader/SpinLoader";
 import { findPublicPostBySlug } from "@/lib/post/queries/public";
 
 type PostSlugPageProps = {
-    params: Promise<{slug: string}>
+    params: Promise<{
+        slug: string
+    }>
 }
 
 export async function generateMetadata({ params }: PostSlugPageProps): Promise<Metadata> {
@@ -18,14 +20,19 @@ export async function generateMetadata({ params }: PostSlugPageProps): Promise<M
     }
 }
 
-export default async function PostSlugPage({ 
+async function PostDetails({ 
     params
 }: PostSlugPageProps) {
     const { slug } = await params;
+    return <SinglePost slug={slug} />
+}
 
+export default async function PostSlugPage({ 
+    params
+}: PostSlugPageProps) {
     return (
         <Suspense fallback={<SpinLoader containerClasses="min-h-20 mb-16" />}>
-            <SinglePost slug={slug} />
+            <PostDetails params={params} />
         </Suspense>
         
     )
